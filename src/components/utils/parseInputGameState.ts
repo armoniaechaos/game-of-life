@@ -13,9 +13,14 @@ export default function parseInputGameState(input: string): GameState {
     throw new Error("Invalid input");
   }
 
-  const generation = rows[0].split(" ")[1].replace(":", "");
+  const generationRaw = rows[0].split(" ")[1];
+  const generation = generationRaw ? Number(generationRaw.replace(":", "")) : 0;
 
   const [height, width] = rows[1].split(" ");
+
+  if (!height || !width || !Number(height) || !Number(width)) {
+    throw new Error("Invalid input");
+  }
 
   const matrix = rows.slice(2).map((row) => {
     return row.split("").map((cell) => {
@@ -24,7 +29,7 @@ export default function parseInputGameState(input: string): GameState {
   });
 
   return {
-    generation: Number(generation),
+    generation: generation,
     height: Number(height),
     width: Number(width),
     matrix,

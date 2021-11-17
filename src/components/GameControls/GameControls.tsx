@@ -18,9 +18,14 @@ export default function GameControls(props: IGameLoopProps) {
       const text = reader.result;
 
       if (text) {
-        const a = parseInputGameState(text.toString());
-        if (a) {
-          props.onLoadState(a);
+        try {
+          const gameState = parseInputGameState(text.toString());
+          if (gameState) {
+            props.onLoadState(gameState);
+          }
+        } catch (e) {
+          alert("Invalid input file");
+          fileInput.current!.value = "";
         }
       }
     };
